@@ -1,14 +1,18 @@
 v0.3
 
+	* Deprecated list, use array instead
+	* New Cons type, linked list
+	* New numeric Integer and Double (replaces Decimal) subtypes of kind Number,
+        prepare for Bigint and Bignum types (auto-promote on overflow)
+        Added specialized methods.
+	* Changed signature types: u => A (Array, Tuple), T => H (Hash)
         * Added new syntax tuple[index] for fast unchecked access,
 	also for table with a string literal: table["key"]
         * Fixed comparison of numbers. checking now also double values, before only int.
         The jit now requires at least a x86 with sse2 (Pentium 4)
         * Changed the name Decimal in the API to Double
-        * Added seperate Double and Integer vtables, which are both of kind Number.
-        Added specialized methods.
         * Added isa? and subclass? methods, re-enabled test/classes/creature.pn
-        * string: improve performance of at and ord
+        * string: improve performance of `at` and `ord`
         * Added more examples
 	* Updated libuv from 0.11.23 to 1.0.0
 
