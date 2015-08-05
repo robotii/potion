@@ -45,16 +45,36 @@ static PN potion_num_sqrt(Potion *P, PN cl, PN self) {
 }
 
 #define PN_NUM_MATH(math_op) \
+  if(!PN_ISNUM(self)) { \
+    self = potion_send(self, PN_number); \
+  } \
+  if(!PN_ISNUM(num)) { \
+    num = potion_send(num, PN_number); \
+  } \
   DBG_CHECK_NUM(self); \
   DBG_CHECK_NUM(num); \
   if (PN_IS_INT(self) && PN_IS_INT(num)) \
     return PN_NUM(PN_INT(self) math_op PN_INT(num)); \
   return potion_double(P, PN_DBL(self) math_op PN_DBL(num));
+
 #define PN_INT_MATH(math_op) \
+  if(!PN_IS_INT(self)) { \
+    self = potion_send(potion_send(self, PN_number), PN_integer); \
+  } \
+  if(!PN_IS_INT(num)) { \
+    num = potion_send(potion_send(num, PN_number), PN_integer); \
+  } \
   DBG_CHECK_INT(self); \
   DBG_CHECK_INT(num); \
   return PN_NUM(PN_INT(self) math_op PN_INT(num));
+
 #define PN_DBL_MATH(math_op) \
+  if(!PN_ISNUM(self)) { \
+    self = potion_send(self, PN_number); \
+  } \
+  if(!PN_ISNUM(num)) { \
+    num = potion_send(num, PN_number); \
+  } \
   DBG_CHECK_NUM(self); \
   DBG_CHECK_NUM(num); \
   return potion_double(P, PN_DBL(self) math_op PN_DBL(num));
