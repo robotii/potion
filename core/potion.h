@@ -203,7 +203,7 @@ struct PNVtable;
 ///\see PN_NUM (int to obj), PN_INT (obj to int), PN_IS_INT (is num obj?)
 #define PN_NUM(i)       ((PN)((((long)(i))<<1) + PN_FINTEGER))
 #define PN_INT(x)       ((long)((long)(x))>>1)
-#define PN_DBL(num)     (PN_IS_INT(num) ? (double)PN_INT(num) : ((struct PNDouble *)num)->value)
+#define PN_DBL(num)     (PN_IS_DBL(num) ? ((struct PNDouble *)num)->value : (double)PN_INT(num))
 typedef _PN (*PN_F)(Potion *, PN, PN, ...);
 #define PN_PREC 16
 #define PN_RAND()       PN_NUM(potion_rand_int())
