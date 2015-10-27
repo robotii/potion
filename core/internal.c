@@ -238,8 +238,14 @@ PN potion_error(Potion *P, PN msg, long lineno, long charno, PN excerpt) {
   return (PN)e;
 }
 
+PN potion_error_new(Potion *P, PN cl, PN self, PN msg) {
+  return potion_error(P, msg, 0, 0, PN_NIL);
+}
+
 PN potion_error_string(Potion *P, PN cl, PN self) {
   vPN(Error) e = (struct PNError *)self;
+  if (e->message == PN_NIL)
+    return potion_str_format(P, "** unspecified error");
   if (e->excerpt == PN_NIL)
     return potion_str_format(P, "** %s\n", PN_STR_PTR(e->message));
   return potion_str_format(P, "** %s\n"
@@ -249,6 +255,7 @@ PN potion_error_string(Potion *P, PN cl, PN self) {
 
 void potion_error_init(Potion *P) {
   PN err_vt = PN_VTABLE(PN_TERROR);
+  potion_type_call_is(err_vt, PN_FUNC(potion_error_new, "message=S"));
   potion_method(err_vt, "string", potion_error_string, 0);
 }
 
